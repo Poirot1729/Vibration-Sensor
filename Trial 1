@@ -38,21 +38,22 @@ void loop()
   blnk(5);
  if (mySerial.available())
   {
-    Serial.write(mySerial.read());
+    //Serial.write(mySerial.read());
     for(i=0;;i++)
      {
        delay(5);
-       value[i]=Serial.read();
-       if(value[i]=='\n')
+       value[i]=mySerial.read();
+       if(value[i]=='\t')
        break;
      }
+      value[i]='\0';
   }
      else
   {
     blnk(5);
   }
-     value[i]='\0';
-  for(int i=0;value[i]!='\n';i++)
+    
+  for(int i=0;value[i]!='\0';i++)
   {
     size++;
   }
