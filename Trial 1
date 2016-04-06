@@ -1,0 +1,72 @@
+#include <SoftwareSerial.h>
+SoftwareSerial mySerial(10, 11); // RX, TX
+void setup()
+{
+  // Open serial communications and wait for port to open:
+  Serial.begin(9600);
+  while (!Serial) 
+  {
+    ; // wait for serial port to connect.
+  }
+  Serial.println("Digital all sensor");
+  mySerial.begin(9600); // set the data rate for the SoftwareSerial port
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);  
+}
+
+int value[]={};
+
+void cls()
+{
+digitalWrite(3,LOW);
+digitalWrite(4,LOW);
+digitalWrite(5,LOW);
+}
+
+void blnk(int n)
+{
+  digitalWrite(n,HIGH);
+  delay(500);
+  digitalWrite(n,LOW);
+  delay(500);
+}
+int size=0,i;
+
+void loop() 
+{
+  blnk(5);
+ if (mySerial.available())
+  {
+    Serial.write(mySerial.read());
+    for(i=0;;i++)
+     {
+       delay(5);
+       value[i]=Serial.read();
+       if(value[i]=='\n')
+       break;
+     }
+  }
+     else
+  {
+    blnk(5);
+  }
+     value[i]='\0';
+  for(int i=0;value[i]!='\n';i++)
+  {
+    size++;
+  }
+ 
+  if(size==4)
+  {cls();
+    blnk(3);
+    digitalWrite(4,HIGH);
+    digitalWrite(5,HIGH);
+  }
+  else
+  blnk(5);
+  
+  size=0;
+  
+}   
+ 
