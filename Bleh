@@ -46,6 +46,8 @@ void loop()
   i++;
   }
 value[i]='\0';
-Serial.write(value);
+if(sizeof(value)>=4)
+digitalWrite(3,HIGH);
+delay();
 }   
  
